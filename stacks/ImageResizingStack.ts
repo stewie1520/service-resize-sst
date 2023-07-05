@@ -14,9 +14,9 @@ export function ImageResizingStack({ stack }: StackContext) {
         bind: [bucket],
         environment: {
           CLOUDFRONT_DOMAIN: cloudFrontDomain,
-        }
-      }
-    }
+        },
+      },
+    },
   });
 
   stack.addOutputs({

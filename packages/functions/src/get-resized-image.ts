@@ -1,8 +1,12 @@
 import { redirectHandler } from "@service-resize-sst/core/handler";
-import { S3Utils, makeFilenameWithSize,  CloudFrontUtil } from "@service-resize-sst/core/utils";
-import { z } from "zod";
+import { CloudFrontUtil, S3Utils, makeFilenameWithSize } from "@service-resize-sst/core/utils";
 import sharp, { FormatEnum } from "sharp";
+import { z } from "zod";
 
+/**
+ * This function is responsible for resizing an image and redirecting to the resized image.
+ * It won't resize the image if it has already been resized.
+ */
 export const main = redirectHandler(async (event) => {
   const { width, height } = QueryValidationSchema.parse(event.queryStringParameters)
 
@@ -15,14 +19,10 @@ export const main = redirectHandler(async (event) => {
   }
 
   const originFileObject = await S3Utils.getObject(key)
-  let body = originFileObject.Body as any
-  if (!body) {
-    throw new Error('File not found')
-  }
 
-  const format = (originFileObject.ContentType?.split('/')[1] || 'png') as keyof FormatEnum
+  const format = (originFileObject.ContentType?.split("/")[1] || "png") as keyof FormatEnum
 
-  const resizedBuffer = await sharp(body)
+  const resizedBuffer = await sharp(originFileObject.Body as Buffer)
     .resize(width, height)
     .toFormat(format)
     .toBuffer()

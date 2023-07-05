@@ -17,8 +17,8 @@ export class S3Utils {
         },
         Conditions: [
           ["starts-with", "$Content-Type", params.contentType],
-          ["content-length-range", 0, params.size + METADATA_SIZE] // 2mb for metadata
-        ]
+          ["content-length-range", 0, params.size + METADATA_SIZE], // 2mb for metadata
+        ],
       }, (err, data) => {
         if (err) {
           reject(err)
@@ -30,7 +30,7 @@ export class S3Utils {
   }
 
   static getMetadata = (key: string): Promise<S3Client.HeadObjectOutput | null> => {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       s3.headObject({
         Bucket: Bucket["papaya-bucket"].bucketName,
         Key: key,
@@ -45,16 +45,10 @@ export class S3Utils {
   }
 
   static async getObject(key: string) {
-    const object = await s3.getObject({
+    return s3.getObject({
       Bucket: Bucket["papaya-bucket"].bucketName,
       Key: key,
     }).promise()
-
-    if (!object.Body) {
-      throw new Error("Object not found")
-    }
-
-    return object
   }
 
   static async putObject(params: { key: string, body: Buffer, contentType?: string }) {

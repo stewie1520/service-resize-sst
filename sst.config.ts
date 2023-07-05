@@ -3,7 +3,7 @@ import { ImageResizingStack } from "./stacks/ImageResizingStack";
 import { StorageStack } from "./stacks/StorageStack";
 
 export default {
-  config(_input) {
+  config() {
     return {
       name: "service-resize-sst",
       region: "us-east-1",
@@ -11,5 +11,5 @@ export default {
   },
   stacks(app) {
     app.stack(StorageStack).stack(ImageResizingStack);
-  }
+  },
 } satisfies SSTConfig;

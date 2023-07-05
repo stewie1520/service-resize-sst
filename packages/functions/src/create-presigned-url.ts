@@ -10,7 +10,7 @@ const MAX_FILE_SIZE = 5 * 1024 * 1024
  */
 export const main = jsonHandler(async (event) => {
   const { filename, size, contentType } = ValidationSchema.parse(
-    JSON.parse(event.body || '')
+    JSON.parse(event.body || "")
   )
 
   const safeFilename = cleanAndGenerateRandomPath(filename)
@@ -27,5 +27,5 @@ export const main = jsonHandler(async (event) => {
 const ValidationSchema = z.object({
   filename: z.string().min(1).max(255),
   size: z.number().min(0).max(MAX_FILE_SIZE),
-  contentType: z.enum(['image/png', 'image/jpeg', 'image/jpg'])
+  contentType: z.enum(["image/png", "image/jpeg", "image/jpg"]),
 })

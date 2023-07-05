@@ -1,7 +1,7 @@
 import { APIGatewayProxyHandlerV2, APIGatewayProxyEventV2, Context } from "aws-lambda";
 import { z } from "zod";
 
-export function jsonHandler(lambda: (event: APIGatewayProxyEventV2, context: Context) => any): APIGatewayProxyHandlerV2 {
+export function jsonHandler(lambda: (event: APIGatewayProxyEventV2, context: Context) => object): APIGatewayProxyHandlerV2 {
   return async function (event, context) {
     let body, statusCode;
 
@@ -53,7 +53,7 @@ export function redirectHandler(lambda: (event: APIGatewayProxyEventV2, context:
           Location: location,
         },
       }),
-      body: JSON.stringify(body || ''),
+      body: JSON.stringify(body || ""),
     };
   };
 }

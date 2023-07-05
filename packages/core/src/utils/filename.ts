@@ -1,17 +1,17 @@
-import { randomBytes } from 'crypto';
+import { randomBytes } from "crypto";
 
 export function generateRandomPath(length: number): string {
   const randomBytesBuffer = randomBytes(length);
-  return randomBytesBuffer.toString('hex');
+  return randomBytesBuffer.toString("hex");
 }
 
 export function cleanAndGenerateRandomPath(filename: string): string {
   const randomPath = generateRandomPath(8);
 
   let cleanedFilename = filename.trim();
-  cleanedFilename = cleanedFilename.replace(/[^\w.]/g, '');
-  cleanedFilename = cleanedFilename.replace(/\.+/g, '.');
-  cleanedFilename = cleanedFilename.replace(/^\.*/, '');
+  cleanedFilename = cleanedFilename.replace(/[^\w.]/g, "");
+  cleanedFilename = cleanedFilename.replace(/\.+/g, ".");
+  cleanedFilename = cleanedFilename.replace(/^\.*/, "");
   const finalPath = `${randomPath}/${cleanedFilename}`;
 
   return finalPath;

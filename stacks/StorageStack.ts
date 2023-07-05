@@ -15,18 +15,18 @@ export function StorageStack({ stack }: StackContext) {
 
   const distribution = new cloudfront.Distribution(stack, "papaya-distribution", {
     defaultBehavior: {
-      origin: new cloudfrontOrigins.S3Origin(bucket.cdk.bucket)
-    }
+      origin: new cloudfrontOrigins.S3Origin(bucket.cdk.bucket),
+    },
   })
 
   const cloudFrontDomain = distribution.domainName
 
   stack.addOutputs({
-    cloudFrontDomain
+    cloudFrontDomain,
   });
 
   return {
     bucket,
-    cloudFrontDomain 
+    cloudFrontDomain, 
   }
 }
